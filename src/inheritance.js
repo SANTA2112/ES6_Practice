@@ -29,7 +29,7 @@ Task.count = 0;
 class SubTask extends Task {
   constructor(title, parent) {
     super(title);
-    this.parent = parent;
+    this._parent = parent;
     console.log("Создание подзадачи");
   }
 

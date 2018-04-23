@@ -54,7 +54,7 @@ var SubTask = function (_Task) {
 
     var _this = _possibleConstructorReturn(this, (SubTask.__proto__ || Object.getPrototypeOf(SubTask)).call(this, title));
 
-    _this.parent = parent;
+    _this._parent = parent;
     console.log("Создание подзадачи");
     return _this;
   }
