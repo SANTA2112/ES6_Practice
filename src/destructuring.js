@@ -1,33 +1,35 @@
-/*let [js, php, py, rb] = ["JavaScript", "PHP", "Python", "Ruby"];
+let user = {
+  firstname: "John",
+  lastname: "Doe",
+  social: {
+    facebook: "johndoe",
+    twitter: "jdoe"
+  }
+};
 
-console.log(js, php, py, rb);
 
-let scores = [3, 4, [5, 6]];
+let {firstname: first, lastname: last, social: { facebook: fb },  age = 25} = user;
 
-let [low, mid, [high, higher]] = scores;
+console.log(first, last, fb, age);
 
-console.log(low, mid, high, higher);*/
 
-function computeScore([low, mid]) {
-  console.log(low, mid);
+function post(url, { data: { firstname, lastname }, cache }) {
+  console.log(firstname, lastname, cache);
 }
 
-//computeScore([3, 4]);
+let result = post("api/users", { data: user, cache: false });
 
-function getScores() {
-  return [3, 4, 5];
+function getUserInfo() {
+  return {
+    firstname: "John",
+    lastname: "Doe",
+    social: {
+      facebook: "johndoe",
+      twitter: "jdoe"
+    }
+  };
 }
 
-let scores = getScores();
+let { firstname, lastname, social: { twitter } } = getUserInfo();
 
-console.log(scores);
-
-let [low, mid, high] = getScores();
-
-console.log(low, mid, high);
-
-let yes = "Yes", no = "No";
-
-[yes, no] = [no, yes];
-
-console.log(yes, no);
+console.log(firstname, lastname, twitter);
