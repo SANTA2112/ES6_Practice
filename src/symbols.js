@@ -1,16 +1,18 @@
-let password = Symbol();
+/*let xmen = ["Cyclops", "Wolverine", "Rogue"];
 
-let user = {
-  username: "r2d2",
-  [password]: "c3po",
-  password: 'asdasd'
-};
 
-console.log(user.password);
-console.log(Object.keys(user));
-console.log(Object.getOwnPropertyNames(user));
+for(let xman of xmen) {
+  console.log(xman);
+}
 
-/*let password = user[Symbol.for("password")];
-console.log(password);*/
 
-console.log(Object.getOwnPropertySymbols(user));
+let iterator = xmen[Symbol.iterator]();
+
+
+let next = iterator.next();
+
+while(!next.done) {
+  console.log(next.value);
+  next = iterator.next();
+}
+*/
