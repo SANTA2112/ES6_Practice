@@ -29,33 +29,26 @@ var getData = function getData(url) {
   });
 };
 
-var search = "batman";
+var batman = getData("http://img.omdbapi.com/?apikey=985cb719&s=batman");
+var superman = getData("http://img.omdbapi.com/?apikey=985cb719&s=superman");
 
-getData("http://img.omdbapi.com/?apikey=985cb719&s=" + search).then(function (movies) {
+/*batman
+  .then(movies =>
+    movies.forEach(movie =>
+      addMovieToList(movie)))
+  .catch(error => console.log(error));
+
+
+superman
+  .then(movies =>
+    movies.forEach(movie =>
+      addMovieToList(movie)))
+  .catch(error => console.log(error));*/
+
+Promise.race([batman.superman]).then(function (movies) {
   return movies.forEach(function (movie) {
     return addMovieToList(movie);
   });
-}).catch(function (error) {
-  return console.log(error);
-});
-
-var go = function go(num) {
-  return new Promise(function (resolve, reject) {
-    var delay = Math.ceil(Math.random() * 3000);
-    console.log(num, delay);
-    setTimeout(function () {
-      if (delay > 2000) reject(num);else resolve(num);
-      resolve(num);
-    }, delay);
-  });
-};
-
-var p1 = go(1);
-var p2 = go(2);
-var p3 = go(3);
-
-Promise.race([p2, p1, p3]).then(function (value) {
-  return console.log(value);
 }).catch(function (error) {
   return console.error(error);
 });

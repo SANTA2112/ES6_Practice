@@ -25,30 +25,24 @@ let getData = (url) => {
   });
 };
 
-let search = "batman";
+let batman = getData("http://img.omdbapi.com/?apikey=985cb719&s=batman");
+let superman = getData("http://img.omdbapi.com/?apikey=985cb719&s=superman");
 
-getData(`http://img.omdbapi.com/?apikey=985cb719&s=${search}`)
+/*batman
   .then(movies =>
     movies.forEach(movie =>
       addMovieToList(movie)))
   .catch(error => console.log(error));
 
-let go = num => new Promise((resolve, reject) => {
-  let delay = Math.ceil(Math.random() * 3000);
-  console.log(num, delay);
-  setTimeout(() => {
-    if(delay > 2000)
-      reject(num);
-    else
-      resolve(num);
-    resolve(num);
-  }, delay);
-});
 
-let p1 = go(1);
-let p2 = go(2);
-let p3 = go(3);
+superman
+  .then(movies =>
+    movies.forEach(movie =>
+      addMovieToList(movie)))
+  .catch(error => console.log(error));*/
 
-Promise.race([p2, p1, p3])
-  .then(value => console.log(value))
-  .catch(error => console.error(error));
+Promise.race([batman. superman])
+      .then(movies =>
+        movies.forEach(movie =>
+          addMovieToList(movie)))
+      .catch(error => console.error(error));
