@@ -1,33 +1,54 @@
-function applyForVisa(documents) {
-  console.log("Обработка заявления....");
-  let promise = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      Math.random() > 0 ? resolve({}) : reject("В визе отказано: не зватка документов!");
-    }, 2000);
+let movieList = document.getElementById("movies");
+
+let addMovieToList = movie => {
+  let img = document.createElement("img");
+  img.src = movie.Poster;
+  movieList.appendChild(img);
+};
+
+let getData = (url) => {
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        let json = JSON.parse(xhr.response);
+        resolve(json.Search);
+      } else {
+        reject(xhr.statusText);
+      }
+    };
+
+    xhr.onerror = error => reject(error);
+
+    xhr.send();
   });
-  return promise;
-}
+};
 
-function getVisa(visa) {
-  console.info("Виза получена");
-  return new Promise(function(resolve, reject) {
-    setTimeout(() => resolve(visa), 2000);
-  });
-}
+let search = "batman";
 
-function bookHotel(visa) {
-  console.log(visa);
-  console.log("Бронируем отель");
-  return Promise.resolve(visa);
-}
+getData(`http://img.omdbapi.com/?apikey=985cb719&s=${search}`)
+  .then(movies =>
+    movies.forEach(movie =>
+      addMovieToList(movie)))
+  .catch(error => console.log(error));
 
-function buyTickets(booking) {
-  console.log("Покупаем билеты");
-  console.log("Бронь", booking);
-}
+let go = num => new Promise((resolve, reject) => {
+  let delay = Math.ceil(Math.random() * 3000);
+  console.log(num, delay);
+  setTimeout(() => {
+    if(delay > 2000)
+      reject(num);
+    else
+      resolve(num);
+    resolve(num);
+  }, delay);
+});
 
-applyForVisa({})
-  .then(getVisa)
-  .then(bookHotel)
-  .then(buyTickets)
-  .catch(error => console.error(error))
+let p1 = go(1);
+let p2 = go(2);
+let p3 = go(3);
+
+Promise.race([p2, p1, p3])
+  .then(value => console.log(value))
+  .catch(error => console.error(error));

@@ -1,35 +1,61 @@
 "use strict";
 
-function applyForVisa(documents) {
-  console.log("Обработка заявления....");
-  var promise = new Promise(function (resolve, reject) {
-    setTimeout(function () {
-      Math.random() > 0 ? resolve({}) : reject("В визе отказано: не зватка документов!");
-    }, 2000);
-  });
-  return promise;
-}
+var movieList = document.getElementById("movies");
 
-function getVisa(visa) {
-  console.info("Виза получена");
+var addMovieToList = function addMovieToList(movie) {
+  var img = document.createElement("img");
+  img.src = movie.Poster;
+  movieList.appendChild(img);
+};
+
+var getData = function getData(url) {
   return new Promise(function (resolve, reject) {
-    setTimeout(function () {
-      return resolve(visa);
-    }, 2000);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var json = JSON.parse(xhr.response);
+        resolve(json.Search);
+      } else {
+        reject(xhr.statusText);
+      }
+    };
+
+    xhr.onerror = function (error) {
+      return reject(error);
+    };
+
+    xhr.send();
   });
-}
+};
 
-function bookHotel(visa) {
-  console.log(visa);
-  console.log("Бронируем отель");
-  return Promise.resolve(visa);
-}
+var search = "batman";
 
-function buyTickets(booking) {
-  console.log("Покупаем билеты");
-  console.log("Бронь", booking);
-}
+getData("http://img.omdbapi.com/?apikey=985cb719&s=" + search).then(function (movies) {
+  return movies.forEach(function (movie) {
+    return addMovieToList(movie);
+  });
+}).catch(function (error) {
+  return console.log(error);
+});
 
-applyForVisa({}).then(getVisa).then(bookHotel).then(buyTickets).catch(function (error) {
+var go = function go(num) {
+  return new Promise(function (resolve, reject) {
+    var delay = Math.ceil(Math.random() * 3000);
+    console.log(num, delay);
+    setTimeout(function () {
+      if (delay > 2000) reject(num);else resolve(num);
+      resolve(num);
+    }, delay);
+  });
+};
+
+var p1 = go(1);
+var p2 = go(2);
+var p3 = go(3);
+
+Promise.race([p2, p1, p3]).then(function (value) {
+  return console.log(value);
+}).catch(function (error) {
   return console.error(error);
 });
